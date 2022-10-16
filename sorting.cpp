@@ -46,8 +46,8 @@ const int DY[4] = {0, 1, 0, -1};
 #define rrepp(i, ...) _sel(__VA_ARGS__, rrepps, rreppn)(i, __VA_ARGS__)
 
 #define pb push_back
-#define fi first
-#define se second
+#define ff first
+#define ss second
 #define rng(v) (v).begin(), (v).end()
 #define rrng(v) (v).rbegin(), (v).rend()
 #define siz(x) ll((x).size())
@@ -97,68 +97,51 @@ struct mint {
     friend ostream& operator<<(ostream& os, mint& a) { return os << a.x; }
 };
 
+bool isprime(int n) {
+
+    for (int i = 2; i <= sqrt(n); i++) {
+        if (n % i == 0) {
+            return false;
+        }
+    }
+    return true;
+
+
+}
+
 
 int main() {
-    int test;
-    cin >> test;
-    for (int i = 1; i <= test; ++i) {
-        double r1 , r2;
-        cin >> r1 >> r2;
-        double eq = r1 + r2;
-        int n;
-        cin >> n;
-        double ans1 = 0, ans2 = 0;
-        vector<double>v1, v2;
-        for (int i = 0; i < n; ++i) {
-            double x, y;
-            cin >> x >> y;
-            double ans = sqrt(pow(x, 2) + pow(y, 2));
+    int t;
+    cin >> t;
 
+    for (int i = 0; i < t; i++) {
 
-            if (ans <= eq)
-            {
-                v1.push_back(ans);
-            }
+        int n, m, k;
+        string s, res = "";
+        cin >> n >> m >> s;
+        map<char, int> mp;
+        for (auto x : s) mp[x]++;
+        int cnt[26];
+        for (int i = 0; i < 26; i++) cnt[i] = 0;
+        for (auto x : mp) {
+            cnt[x.ff - 'a'] = x.ss;
         }
-        int m;
-        cin >> m;
-        for (int i = 0; i < m; ++i) {
-            double x, y;
-            cin >> x >> y;
-            double ans = sqrt(pow(x, 2) + pow(y, 2));
-            if (ans <= eq)
-            {
-
-                v2.push_back(ans);
-
-            }
-        }
-        for (int i = 0; i < v1.size(); i++)
-        {
-            int stop = true;
-            for (int j = 0; j < v2.size(); j++)
-            {
-                if (v2[j] < v1[i]) {
-                    stop = false;
+        k = m;
+        while (k--) {
+            int flag = 1;
+            int j = 0;
+            int mx = min(n / m, 26);
+            for (int i = 0; i < mx; i++, j++) {
+                if (cnt[i] == 0) {
+                    flag = 0;
                     break;
                 }
+                cnt[i]--;
             }
-            if (stop)
-                ans1++;
+            (flag) ? res.pb('a' + n / m) : res.pb('a' + j);
         }
-        for (int i = 0; i < v2.size(); i++)
-        {
-            int stop = true;
-            for (int j = 0; j < v1.size(); j++)
-            {
-                if (v1[j] < v2[i]) {
-                    stop = false;
-                    break;
-                }
-            }
-            if (stop)
-                ans2++;
-        }
-        cout << "Case #" << i << ": " << ans1 << " " << ans2 << endl;
+        cout << res << endl;
     }
+
+
 }
